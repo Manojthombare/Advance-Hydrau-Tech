@@ -1,0 +1,45 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_form_contact_person" model="ir.ui.view">
+        <field name="name">contact.person.form</field>
+        <field name="model">contact.person</field>
+        <field name="arch" type="xml">
+            <form string="Details of Person">
+                <sheet>  
+                    <group>
+                        <field name="name"/>
+                        <field name="person_number"/>
+                        <field name="person_email"/>
+                        <field name="company_name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record id="view_tree_contact_person" model="ir.ui.view">
+        <field name="name">contact.person.tree</field>
+        <field name="model">contact.person</field>
+        <field name="arch" type="xml">
+            <tree string="Details of Person">
+                <field name="name"/>
+                <field name="person_number"/>
+                <field name="person_email"/>
+                <field name="company_name" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+      <record id="action_contact_person" model="ir.actions.act_window">
+        <field name="name">Contact List</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contact.person</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html"><p>Create First Entry</p></field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_contact_person" name="Contact List" action="action_contact_person" sequence="96" parent="sale.sale_order_menu"/>
+
+</odoo>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+                                                    
+      <template id="report_installation_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                            <style>
+
+                            body, html 
+                            {
+                                margin: 0;
+                                padding: 0;
+                             }
+                            .page-container {
+                                border: 1px solid black;
+                                padding: 0px;
+                                margin: 0px;
+                                border-collapse: collapse;
+                            }
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-family: 'Times New Roman';
+                                <!-- font-size:14px; -->
+                                
+                            }
+
+                               <!-- tr {
+                                     height: 30px;
+                                     padding:5px;
+                                } -->
+
+                               .first_column {
+                                     border: 1px solid black;
+                                     width: 55%;
+                               }
+
+                               .second_column {
+                                       border: 1px solid black;
+                                     width: 45%;
+
+                                }
+
+                                th {
+                                     height: 20px;
+                                     width: 30%;
+                                     text-align: left;
+                                 
+                                     padding: 2px;
+                                     font-size: 13px;
+                                    }
+
+                                td {
+                                    height: 20px;
+                                    width: 70%;
+                                     text-align: left;
+                            
+                                     padding:2px;
+                                     font-size: 15px; 
+                                }
+
+
+                   <!--    .page-break {
+                            margin: 10px;
+                            page-break-before: always;
+                            border: 0px solid white;
+                        }--> 
+          
+                            </style>
+              
+             <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header_installation.png" alt="Image Description" style="padding-bottom:5px;width: 100%; height: auto;display: block;"/> 
+            
+           
+        <table>
+            <tr>
+                <td class="first_column">
+                    <table>
+                        <tr>
+                            <th>Company Name :</th>
+                            <td>
+                                <span t-field = "o.company_name.name"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr>
+                            <th>Complaint No:</th>
+                            <td>
+                                <span t-field = "o.complaint_no"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="first_column">
+                    <table>
+                        <tr>
+                            <th style="padding-right:40px;">Address :</th>
+                            <td>
+                                <span t-field = "o.company_name.street"></span>,<span t-field = "o.company_name.city">,</span><span t-field = "o.company_name.state_id"></span>,
+                               <span t-field = "o.company_name.zip">,</span><span t-field = "o.company_name.country_id"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr rowspan="2">
+                            <th>Date:</th>
+                            <td>
+                                <span t-field = "o.installation_date"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Engineer Name:</th>
+                            <td>
+                              <span t-field = "o.engineer_name"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="first_column">
+                    <table>
+                        <tr>
+                            <th style="padding-right:25px;">Machine No. :</th>
+                            <td>
+                               <span t-field = "o.machine_no"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr rowspan="2">
+                            <th>Contact Person :</th>
+                            <td>
+                                <span t-field = "o.company_name.function"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Contact No. :</th>
+                            <td>
+                               <span t-field = "o.company_name.phone"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email Address :</th>
+                            <td><span t-field = "o.company_name.email"></span></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </table>
+
+
+            <!-- NUMBER OF LEAKAGE FOUND starts -->
+      <table style="margin:auto; padding-left: 0px;border-right:1px solid; border-left:1px solid; border-bottom: 1px solid"> <tr>
+            <th style="padding-left:10px; padding-top: 10px;">NUMBER OF LEAKAGE FOUND: </th>
+        </tr>
+        <tr>
+             <td style="padding-left:40px; border-right:1px solid;">  1. <span t-field = "o.no_of_leakage_1" ></span></td>
+        </tr>
+
+        <tr>
+            <td style="padding-left:40px; border-right:1px solid;">    2. <span t-field = "o.no_of_leakage_2"></span></td>
+          
+        </tr>
+        <tr>
+            <td style="padding-left:40px; border-right:1px solid;">    3. <span t-field = "o.no_of_leakage_3"></span></td>
+
+        </tr>
+      </table>
+
+
+
+
+
+
+            <!-- ANY PART MISSING FROM MACHINE STARTS  -->
+             <table style="margin:auto; padding-left: 0px;border-right:1px solid; border-left:1px solid; border-bottom: 1px solid"  >
+            <tr>
+                <th style="padding-left:10px; padding-top: 10px;">ANY PART MISSING FROM MACHINE</th>
+            </tr>
+                    <tr>
+             <td style="padding-left:40px; border-left:1px solid;">  1. <span t-field = "o.missing_part_1"></span></td>
+        </tr>
+ 
+        <tr>
+            <td style="padding-left:40px; border-left:1px solid;">  2. <span t-field = "o.missing_part_2"></span></td>
+          
+        </tr>
+        <tr>
+            <td style="padding-left:40px;  border-left:1px solid;">3. <span t-field = "o.missing_part_3"></span></td>
+        </tr>
+            </table>
+                        <!-- ANY WElding PROBLEM IN MACHINE STARTs  -->
+             <table style="margin:auto; padding-left: 0px;border-right:1px solid; border-left:1px solid;"  >
+            <tr>
+                <th style="padding-left:10px; padding-top: 10px;">ANY WELDING PROBLEM IN MACHINE</th>
+            </tr>
+                   <tr>
+             <td style=" padding-left:40px; border-left:1px solid;">1. <span t-field = "o.welding_problem_in_machine_1" style="border-right:1px solid white;"></span></td>
+        </tr>
+
+        <tr>
+            <td style="padding-left:40px;  border-left:1px solid;">2. <span t-field = "o.welding_problem_in_machine_2"></span></td>
+          
+        </tr>
+        <tr>
+            <td style="padding-left:40px; border-left:1px solid;">3. <span t-field = "o.welding_problem_in_machine_3"></span></td>
+        </tr>
+             
+        </table>
+            <!-- ANY PROBLEM IN MACHINE STARTs  -->
+             <table height="100px" style="border:1px solid black; border-right:1px solid; border-bottom: none;"   >
+            <tr>
+                <th style="padding-left:10px; padding-top: 10px;">ANY PROBLEM IN MACHINE</th>
+            </tr>
+                    <tr>
+            <td style="padding-left:40px; border-left:1px solid;">1. <span t-field = "o.problem_in_machine_1" style="border-right:1px solid white;"></span></td>
+        </tr>
+
+        <tr>
+            <td style="padding-left:40px; border-left:1px solid;">2. <span t-field = "o.problem_in_machine_2"></span></td>
+          
+        </tr>
+        <tr>
+            <td style=" padding-left:40px; border-left:1px solid;">3. <span t-field = "o.problem_in_machine_3"></span></td>
+        </tr>
+             
+        </table>
+        <!-- MACHINE CHECKED BY SERVICE PERSONNEL starts -->
+        <table  style="border:1px solid black"   >
+        <tr>
+            <th colspan="2" style="padding-top: 10px; padding-left:10px">
+                MACHINE CHECKED BY SERVICE PERSONNEL
+            </th>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">1. Nut Bolt of Machine</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.nut_bolt_checked"></span></td>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">2. Wire Checked</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.wire_checked"></span></td>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">3. Hoise Pipe Tightened</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.hose_pipe_tightened"></span></td>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">4. Oil checked</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.oil_checked"></span></td>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">5. Power Supply</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.power_supply_checked"></span></td>
+        </tr>
+        <tr>
+            <td style="padding-left:40px; width: 40%">6. Machine working in Manual/ Auto</td>
+            <td style="width:60px; text-align:left"><span t-field = "o.machine_working_mode"></span></td>
+        </tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+    
+        <!-- <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr> -->
+        
+
+         
+        <tr>
+            <td style="text-align: left; padding-left: 10px;"><span t-field = "o.party_signature"></span></td>
+            <td style="text-align:right; padding-right: 10px;"><span t-field = "o.service_engineer"></span></td>
+        </tr>
+        <tr>
+            <th width="50%" style="text-align: left; padding-left: 10px;">Party's Sing:-</th>
+            <th width="50%" style="text-align:right; padding-right: 10px;">Service Enginner:-</th>
+        </tr>
+    </table>
+   <p style="page-break-before: always;"></p>
+ 
+    
+    <!-- Second page  class="page-break" -->
+     <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header_installation.png" alt="Image Description" style="padding-bottom:5px;width: 100%; height: auto;display: block;"/> 
+    <div>
+    <table>
+        <tr>
+            <td class="first_column">
+                    <table>
+                        <tr>
+                            <th>Company Name :</th>
+                            <td>
+                                <span t-field = "o.company_name.name"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr>
+                            <th>Complaint No:</th>
+                            <td>
+                                <span t-field = "o.complaint_no"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="first_column">
+                    <table style="border-bottom: none;">
+                        <tr>
+                            <th style="padding-right:40px;">Address :</th>
+                            <td>
+                               <span t-field = "o.company_name.street"></span>,<span t-field = "o.company_name.city">,</span><span t-field = "o.company_name.state_id"></span>,
+                               <span t-field = "o.company_name.zip">,</span><span t-field = "o.company_name.country_id"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr rowspan="2">
+                            <th>Date:</th>
+                            <td>
+                                <span t-field = "o.installation_date"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Engineer Name:</th>
+                            <td>
+                              <span t-field = "o.engineer_name"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="first_column">
+                    <table style="border:none;">
+                        <tr>
+                            <th style="padding-right:25px;">Machin No. :</th>
+                            <td>
+                               <span t-field = "o.machine_no"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table style="border:none;">
+                        <tr rowspan="2">
+                            <th>Contact Person :</th>
+                            <td>
+                                <span t-field = "o.company_name.function"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Contact No. :</th>
+                            <td>
+                               <span t-field = "o.company_name.phone"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email Address :</th>
+                            <td><span t-field = "o.company_name.email"></span></td>
+                        </tr>
+                    </table>
+                </td>
+        </tr>
+
+
+
+
+        <!-- NUMBER OF LEAKAGE FOUND starts -->
+      <table style="margin:auto; padding-left: 0px;border-right:1px solid; border-left:1px solid; border-bottom: 1px solid"> <tr>
+            <th style="padding-left:10px">NUMBER OF LEAKAGE FOUND: </th>
+        </tr>
+        <tr>
+             <td style="padding-left:40px; border-right:1px solid;">  1. <span t-field = "o.no_of_leakage_1" ></span></td>
+        </tr>
+
+        <tr>
+            <td style="padding-left:40px; border-right:1px solid;">    2. <span t-field = "o.no_of_leakage_2"></span></td>
+          
+        </tr>
+        <tr>
+            <td style="padding-left:40px; border-right:1px solid;">    3. <span t-field = "o.no_of_leakage_3"></span></td>
+
+        </tr>
+      </table>
+    </table>
+
+
+
+   
+    <table  style="border: 1px solid black; border-top: none;">
+        <tr>
+            <th style="width: 50%; padding:3px; padding-left: 10px;">TYPE OF SCRAP USED BY CUSTOMER</th>
+            <td><span t-field = "o.scrap_type"></span></td>
+        </tr>
+        <tr>
+            <th style="width: 50%; padding:3px; padding-left: 10px;">NUMBER OF BALE MADE BY CUSTOMER</th>
+            <td><span t-field = "o.bales_made"></span></td>
+        </tr>
+        <tr>
+            <th style="width: 50%; padding:3px; padding-left: 10px;">TRAINING AND MAINTAINCE TIPS GIVEN TO PERSON</th>
+            <td><span t-field = "o.training_given_to"></span></td>
+        </tr>
+        <tr>
+            <th style="width: 50%; padding:3px; padding-left: 10px;">NAME:- </th>
+            <td><span t-field = "o.trainee_name"></span></td>
+        </tr>
+        <tr>
+            <th style="width: 50%; padding:3px; padding-left: 10px;">DESIGNATION :- </th>
+            <td><span t-field = "o.trainee_designation"></span></td>
+        </tr>
+
+    <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+        <tr><td colspan="2"></td></tr>
+          <tr>
+            <td style="text-align: left; padding-left: 10px;"><span t-field = "o.party_signature"></span></td>
+            <td style="text-align:right; padding-right: 10px;"><span t-field = "o.service_engineer"></span></td>
+        </tr>
+        <tr>
+            <th style="text-align: left; padding-left: 10px;">Party's Sing:-</th>
+            <th style="text-align:right;padding-right: 10px;">Service Enginner:-</th>
+        </tr>
+    </table>
+
+   </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- <report 
+       id= "print_installation_report_id"
+       model = "installation.report"
+       report_type= "qweb-pdf"
+       string = "Installation Report"
+       name = "dw_sales_inherit.report_installation_document"
+       file = "dw_sales_inherit.report_installation_document"
+       />
+     -->
+</odoo>

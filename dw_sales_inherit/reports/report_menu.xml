@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define Legal Paper Format -->
+        <record id="paperformat_legal" model="report.paperformat">
+            <field name="name">Legal Paper Format</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>    
+
+        <!-- Menu For Invoice With No Header And Footer PDF Report -->
+        <record id="action_report_quotation_menu" model="ir.actions.report">
+            <field name="name">Order / Quotation</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dw_sales_inherit.report_quotation_template</field>
+            <field name="report_file">dw_sales_inherit.report_quotation_template</field>
+            <field name="print_report_name">
+                (object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)
+            </field>
+            <field name="binding_view_types">list,form</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_legal"/>
+        </record>
+
+        <!-- <record id="action_report_quotation_menu_for_2nd_cmpny" model="ir.actions.report">
+            <field name="name">Order / Quotation For ASP</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dw_sales_inherit.report_quotation_order_template</field>
+            <field name="report_file">dw_sales_inherit.report_quotation_order_template</field>
+            <field name="print_report_name">
+                (object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)
+            </field>
+            <field name="binding_view_types">list,form</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="paperformat_id" ref="paperformat_legal"/>
+            <field name="binding_type">report</field>
+        </record> -->
+
+        <!-- Pro-Forma Invoice Report -->
+        <record id="action_report_proforma_invoice" model="ir.actions.report">
+            <field name="name">Pro-Forma Invoice</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dw_sales_inherit.report_proforma_invoice_document</field>
+            <field name="report_file">dw_sales_inherit.report_proforma_invoice_document</field>
+            <field name="print_report_name">'PRO-FORMA - %s' % (object.name)</field>
+            <field name="binding_view_types">list,form</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="paperformat_id" ref="paperformat_legal"/>
+            <field name="binding_type">report</field>
+            <!-- <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/> -->
+        </record>
+
+        <record id="action_report_installation_template" model="ir.actions.report">
+            <field name="name">Installation Report</field>
+            <field name="model">installation.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dw_sales_inherit.report_installation_document</field>
+            <field name="report_file">dw_sales_inherit.report_installation_document</field>
+            <field name="print_report_name">'Installation - %s' % (object.company_name.name)</field>
+            <field name="binding_view_types">list,form</field>
+            <field name="binding_model_id" ref="dw_sales_inherit.model_installation_report"/>
+            <field name="paperformat_id" ref="paperformat_legal"/>
+            <field name="binding_type">report</field>
+            <!-- <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/> -->
+        </record>
+        <record id="action_report_warranty_template" model="ir.actions.report">
+            <field name="name">Warranty Report</field>
+            <field name="model">warranty.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dw_sales_inherit.report_warranty_document</field>
+            <field name="report_file">dw_sales_inherit.report_warranty_document</field>
+            <field name="print_report_name">'Warranty - %s' % (object.name_of_company.name)</field>
+            <field name="binding_view_types">list,form</field>
+            <field name="binding_model_id" ref="dw_sales_inherit.model_warranty_report"/>
+            <field name="paperformat_id" ref="paperformat_legal"/>
+            <field name="binding_type">report</field>
+            <!-- <field name="groups_id" eval="[(4, ref('sale.group_proforma_sales'))]"/> -->
+        </record>
+    </data>
+</odoo>

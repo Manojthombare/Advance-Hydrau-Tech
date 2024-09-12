@@ -1,0 +1,98 @@
+<odoo>
+        <record id="view_product_product_tree" model="ir.ui.view">
+        <field name="name">product.product.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">   
+                <!-- <field name="name"/> -->
+                <field name="default_code"/>
+                <!-- <field name="list_price"/> -->
+                <field name="freshworks_id"/>
+                <field name="category"/>
+                <field name="cf_subcategory_of_spares"/>
+                <field name="cf_weight_in_tons"/>
+                <field name="cf_uom"/>
+                <!-- <field name="cf_hsn_no"/> -->
+                <field name="cf_file_no"/>
+                <field name="product_code"/>
+                <field name="sku_number"/>
+                <field name="parent_product"/>
+                <field name="territory_id"/>
+                <field name="valid_till"/>
+                <field name="is_active"/>
+                <field name="owner_id"/>
+                <field name="is_deleted"/>
+                <field name="created_at"/>
+                <field name="updated_at"/>
+                <field name="pricing_type"/>
+                <field name="product_pricings"/>
+                <!-- <field name="avatar"/> -->
+                <!-- <field name="base_currency_amount"/> -->
+                <field name="creater_id"/>
+                <field name="updater_id"/>
+               <!-- <field name="description"/> -->
+                <field name="external_source_id"/>
+            </xpath>
+        </field>
+    </record> 
+
+    <record id="view_product_template_form" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+                <!-- <sheet>
+                    <group> -->
+                   <xpath expr="//field[@name='detailed_type']" position="before">
+                        <field name="name"/>
+                        <field name="default_code"/>
+                        <!-- <field name="list_price"/> -->
+                        <field name="freshworks_id"/>
+                        <field name="category"/>
+                        <field name="cf_subcategory_of_spares"/>
+                        <field name="cf_weight_in_tons"/>
+                        <field name="cf_uom"/>
+                        <!-- <field name="cf_hsn_no"/> -->
+                        <field name="cf_file_no"/>
+                        <field name="product_code"/>
+                        <field name="sku_number"/>
+                        <field name="parent_product"/>
+                        <field name="territory_id"/>
+                        <field name="valid_till"/>
+                        <field name="is_active"/>
+                        <field name="owner_id"/>
+                        <field name="is_deleted"/>
+                        
+                    
+                    </xpath>   
+                    <xpath expr="//field[@name='barcode']" position="before">
+                        <field name="created_at"/>
+                        <field name="updated_at"/>
+                        <field name="pricing_type"/>
+                        <field name="product_pricings"/>
+                        <field name="avatar"/>
+                        <!-- <field name="base_currency_amount"/> -->
+                        <field name="creater_id"/>
+                        <field name="updater_id"/>
+                        <field name="description"/>
+                        <field name="external_source_id"/>
+                    </xpath> 
+                    <!-- </group>
+                </sheet> -->
+           
+        </field>
+    </record>
+
+    <!-- <record id="action_product_product" model="ir.actions.act_window">
+        <field name="name">Products</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">tree,form</field>
+       <field name="view_id" ref="view_product_product_form"/>
+        <field name="view_id" ref="view_product_product_tree"/>
+        <field name="domain">[('is_fresh', '!=', False)]</field>
+    </record>
+
+    <menuitem id="menu_product_product" name="All Products" parent="menu_deal_data_root" action="action_product_product" sequence="10"/> -->
+
+</odoo>

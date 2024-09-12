@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="report_quotation_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                      <style>
+                    
+                        /* Resetting margins and padding for the document */
+                        body, html {
+                        margin: 0;
+                        padding: 0;
+                        height: 100%;
+                        }
+
+                        body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        }
+
+                        .a4-container {
+                        <!--width: 210mm; /* A4 width */-->
+                        height: 285mm; /* A4 height */
+                        border: 1px solid #000;
+                        box-sizing: border-box; /* Ensure padding and border do not increase element size */
+                        <!--margin: 10mm;-->
+                        <!--padding: 10mm;-->
+                        }
+                        </style>
+                       <t t-if="o.company_id.id == 1">
+                        
+                        <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-1.png" alt="Image Description"/>
+                        
+                      
+                  
+                        <div class="a4-container page no-margin-padding" style="margin-top:5px;">
+                            <h2 style="background-color:#D3D3D3;color:black;text-align:center;margin:5px;margin-bottom:none;">
+                            <strong>
+                                <span t-if="o.state not in ['draft','sent']">ORDER CONFIRMATION</span>
+                                <span t-if="o.state in ['draft','sent']">QUOTATION</span>
+                            </strong>
+                        </h2>
+                            <div class="row w-100 ml-0 mt-1">
+                                <div class="col-7 mb4" style="padding-left:4px;">
+                                    <table class="w-100 mt-3">
+                                        <tbody style="border:1px solid;">
+                                            <tr>
+                                                <td style="font-size:18px;font-family: Arial, sans-serif;padding-left:4px;"><strong>Party Name &amp; Address :- </strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size:18px;font-family: Arial, sans-serif;padding-left:5px;">
+                                                    <strong><span t-if="o.partner_id.name"><t t-esc="o.partner_id.name"/></span><br/></strong>
+                                                    <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/></span><br/>
+                                                    <span t-if="o.partner_id.street2"><t t-esc="o.partner_id.street2"/></span>
+                                                    <span t-if="o.partner_id.city"><t t-esc="o.partner_id.city"/></span>
+                                                    <span t-if="o.partner_id.state_id.name"><t t-esc="o.partner_id.state_id.name"/></span>
+                                                    <span t-if="o.partner_id.country_id.name">, <t t-esc="o.partner_id.country_id.name"/></span>
+                                                    <span t-if="o.partner_id.zip">, <t t-esc="o.partner_id.zip"/></span><br/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size:18px;font-family: Arial, sans-serif;adding-top:30px;padding-left:5px;">
+                                                    <strong style="padding-left:4px;">Kind Attention :</strong><br/>
+                                                    <strong style="padding-left:4px;"><span t-if="o.partner_id.function"><t t-esc="o.partner_id.function"/></span></strong><br/>
+                                                    <strong style="padding-left:4px;"><span t-if="o.partner_id.mobile"><t t-esc="o.partner_id.mobile"/></span></strong><br/>
+                                                    <strong style="padding-left:4px;"><span t-if="o.partner_id.email"><t t-esc="o.partner_id.email"/></span></strong><br/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-5 mb4" style="padding-left:2px;border:1px solid;margin-left:-4px;">
+                                    <table class="w-100">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-size:18px;font-family: Arial, sans-serif;padding-left:5px;">
+                                                    <strong>Quotation No. :- </strong> <span t-if="o.name"><t t-esc="o.name"/></span><br/>
+                                                    <strong>Quotation Date :- </strong><span t-if="o.date_order"><t t-esc="o.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row w-100 ml-0 mt-1" style="padding-top:2px;padding-bottom:10px;">
+                                 <table class="w-100">
+                            <thead style="border-top:1px solid;border-bottom:1px solid;color:black;font-size:18px;font-family: Arial, sans-serif;">
+                                <tr height="30px">
+                                    <th class="text-center" style="padding:10px;width:5%;"><strong>Sr.No</strong></th>
+                                    <th class="text-center" style="padding:10px;width:35%;"><strong>Description Of Goods</strong></th>
+                                    <th class="text-center" style="padding:10px;width:15%;"><strong>HSN Code</strong></th>
+                                    <th class="text-center" style="padding:10px;width:10%;"><strong>Qty</strong></th>
+
+                                    <t t-if="o.state in ['draft','sent']">
+                                        <th class="text-center" style="padding:10px;width:10%;"><strong>Price</strong></th>
+                                       <t t-if="o.order_line[0].discount_type in ['percentage', 'flat']"> 
+                                        <th class="text-center" style="padding:10px;width:15%;"><strong>Best Price</strong></th>
+                                       </t> 
+                                    </t>
+                                    <t t-if="o.state not in ['draft','sent']">
+                                      <t t-if="o.order_line[0].discount_type in ['percentage', 'flat']">
+                                        <th class="text-center" style="padding:10px;width:10%;"><strong>Unit Price</strong></th>
+                                      </t>
+                                    </t>
+                                    <th class="text-center" style="padding:10px;width:15%;"><strong>Taxable Value</strong></th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="sale_tbody" style="border-bottom:1px solid;font-family: Poppins, sans-serif;font-size:18px;">
+                                <t t-set="sr_no" t-value="0"/>
+                                <t t-set="total_qty" t-value="0"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                                
+                                <t t-foreach="o.order_line" t-as="line">
+                                    <tr>
+                                        <t t-set="sr_no" t-value="sr_no + 1"/>
+                                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                        <td class="text-center" style="padding:10px;width:5%;">
+                                            <t t-esc="sr_no"/>
+                                        </td>
+                                        <td class="text-left" style="padding:10px;width:35%;">
+                                            <t t-esc="line.product_id.name"/>
+                                        </td>
+                                        <td class="text-center" style="padding:10px;width:10%;">
+                                            <t t-esc="line.product_id.l10n_in_hsn_code"/>
+                                        </td>
+                                        <td class="text-center" style="padding:10px;width:10%;">
+                                            <span t-esc="'%.2f' % line.product_uom_qty"/>
+                                        </td>
+
+
+                                        <t t-if="o.state in ['draft', 'sent']">
+                                            <td class="text-center" style="padding:10px;width:10%;">
+                                                    <span t-field="line.price_unit"/>
+                                                </td>
+                                        </t>
+                                        <!-- Only render the <td> if a discount is applied (either percentage or flat) -->
+                                                <t t-if="line.discount_type in ['percentage', 'flat']">
+                                                    <td class="text-center o_price_total" style="padding:10px;width:10%;">
+                                                        <!-- Check if the discount type is percentage -->
+                                                        <t t-if="line.discount_type == 'percentage'">
+                                                            <t t-set="discounted_price" t-value="line.price_unit * (1 - (line.percentage_discount / 100.0))"/>
+                                                            <span t-esc="'{:,.2f}'.format(discounted_price)"/>
+                                                        </t>
+                                                        
+                                                        <!-- Check if the discount type is flat -->
+                                                        <t t-elif="line.discount_type == 'flat'">
+                                                            <t t-set="discount_price" t-value="line.price_unit - line.flat_discount"/>
+                                                            <span t-esc="'{:,.2f}'.format(discount_price)"/>
+                                                        </t>
+                                                    </td>
+                                                </t>
+
+                                        
+                                        <td class="text-right o_price_total" style="padding:10px;width:20%;">
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                           </table>
+                                
+                            </div>
+
+                            <!-- <div class="col-12 text-right" style="border-top:1px solid;">
+                                <tr>
+                                    <td>
+                                        <strong style="border-left:1px solid;border-bottom:1px solid;margin-right:-17px;padding:4px 5px 5px 5px;">
+                                            Gross Amount           <t t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </div>     -->
+                            <div class="col-12" style="border-top:1px solid;font-family: Arial, sans-serif;font-size:18px;">
+
+                            <div class="row">
+                                <div class="col-7"></div>
+                                <div class="col-5" style="border-left:1px solid;border-bottom:1px solid;">
+                                   
+                                        <tr>
+                                        <td>
+                                        <strong style="padding:4px 5px 5px 5px;">
+                                            Gross Amount  :<span style="float: right;"><t t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></span>
+                                        </strong>
+                                       </td>
+                                            
+                                        </tr>
+                                        <tr t-if="o.fret">
+                                           <br/>
+                                            <td>
+                                        <strong style="padding:4px 5px 5px 5px;">
+                                            Freight Charges :  <span style="float: right;"><t t-esc="o.fret" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></span>
+                                        </strong>
+                                       </td>
+                                        </tr>
+                                        <tr t-if="o.fret">
+                                            <br/>
+                                            <td>
+                                        <strong style="padding:4px 5px 5px 5px;">
+                                            Total Amount  :<span style="float: right;"><t t-esc="current_subtotal - o.fret" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></span>
+                                        </strong>
+                                    </td>
+                                        </tr>
+                                </div>
+                            </div>
+                        </div>
+
+
+                            <div class="col-12" style="font-family: Arial, sans-serif;font-size:18px;">
+                                <tr>
+                                    <td style="padding-left:5px;font-size:15px;"><strong>Rupees In Words - </strong></td><br/>
+                                    <strong><t t-set="total_quotation_value_words" t-value="o.number_in_words('%.2f'% current_subtotal)"/></strong>
+                                    <td style="text-transform: capitalize;padding-left:5px;"><strong><t t-esc="total_quotation_value_words"/></strong></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td style="padding-left:5px;" class="text-top" rowspan="4" colspan="4"><strong>Terms &amp; Conditions :</strong></td><br/>
+                                    <td style="padding-left:5px;" class="text-top" rowspan="4" colspan="4"><t t-esc="o.note"/></td>
+                                    <t t-if="o.state not in ['draft','sent']">
+                                    
+                                      <td style="padding-left:5px;" class="text-top" rowspan="4" colspan="4"><t t-esc="o.bank_details"/></td>
+                                    </t>
+                                </tr>
+                            </div>
+                        </div>
+                        <p style="text-align: center;font-size:12px;margin: 0;">
+                            OFF: KHASRA NO 86/23, VILLAGE GHEVRA, ROHTAK RD, 
+                            (NEAR HIRAN KUDNA MOR) MUNDKA UDYOG NAGAR, ROHTAK ROAD, 
+                            NEW DELHI, DELHI - 110081 (INDIA)
+                        </p>
+                        <p style="page-break-before: always"/>
+                        <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-1.png" alt="Image Description"/>
+                        <t t-if="o.pricelist_id.currency_id.name == 'INR'">
+                        <div class="a4-container page no-margin-padding" style="border:1px solid;margin-top:10px;"> 
+                            <div class="col-12" style="margin-bottom:10px;">
+                            <!-- <div class="col-12"> -->
+                                <tr style="border-top:1px solid;">
+                                    <td style="padding-left:5px;font-size:16px;font-family: Helvetica, Arial, sans-serif;" class="text-top" rowspan="4" colspan="4"><t t-esc="o.note1"/></td>
+                                    
+                                </tr>
+                            </div>
+                        </div>
+                        </t>
+                        <t t-if="o.pricelist_id.currency_id.name == 'USD'">
+                           <div  style="border:1px solid;margin-top:10px;"> 
+                            <div class="col-12" style="margin-bottom:10px;">
+                            <!-- <div class="col-12"> -->
+                                <tr style="border-top:1px solid;">
+                                      <td style="padding-left:5px;font-size:16px;font-family: Helvetica, Arial, sans-serif;" class="text-top" rowspan="4" colspan="4"><t t-esc="o.export_terms_condn"/></td>
+                                </tr>
+                            </div>
+                        </div>
+                        </t>
+                        <p style="text-align: center;font-size:12px;margin: 0;">
+                            OFF: KHASRA NO 86/23, VILLAGE GHEVRA, ROHTAK RD, 
+                            (NEAR HIRAN KUDNA MOR) MUNDKA UDYOG NAGAR, ROHTAK ROAD, 
+                            NEW DELHI, DELHI - 110081 (INDIA)
+                        </p>
+                        <p style="page-break-before: always"/>
+                        <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-1.png" alt="Image Description"/> 
+                        <div class="a4-container page no-margin-padding" style="border:1px solid;margin-top:10px;"> 
+                            <div class="col-12" style="margin-bottom:10px;">
+                                <center><h4 style="padding-bottom: 3px;"><strong><span t-field="o.order_line.product_id[0].name"/></strong></h4> </center>
+                                <style>
+                                    .full-page-image {
+                                        width: 100%;
+                                        height: 100vh;
+                                        object-fit: cover;
+                                    }
+                                </style>
+                                <img class="full-page-image" t-attf-src="data:image/*;base64, {{o.order_line.product_id[0].image_1920}}"/>  
+                            </div>
+                        </div>
+                        <p style="text-align: center;font-size:12px;margin: 0;">
+                            OFF: KHASRA NO 86/23, VILLAGE GHEVRA, ROHTAK RD, 
+                            (NEAR HIRAN KUDNA MOR) MUNDKA UDYOG NAGAR, ROHTAK ROAD, 
+                            NEW DELHI, DELHI - 110081 (INDIA)
+                        </p>
+                        <p style="page-break-before: always"/>
+                        <style>
+                            .underline-with-space {
+                                position: relative;
+                                display: inline-block;
+                            }
+                            .underline-with-space::after {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                right: 0;
+                                bottom: -1px;  /* Adjust the value to create space */
+                                border-bottom: 1px solid currentColor;  /* Uses the text color */
+                            }
+                        </style>
+                        <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-1.png" alt="Image Description"/>
+                        <div  style="border: 1px solid; font-size:22px;font-weight:bold;margin-top: 10px; font-family: Poppins,sans-serif;">
+                        <div class="col-12">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <h4 style="padding-bottom: 1px; font-size: 24px; font-weight: bold;">
+                                            <span t-field="o.order_line.product_id[0].name" class="underline-with-space" />
+                                        </h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center;">
+                                        <h4 style="font-size: 22px; font-weight: bold;">
+                                            <strong class="underline-with-space">SPECIFICATION</strong>
+                                        </h4>
+                                    </td>
+                                </tr>
+                              <t t-foreach="o.order_line.product_id[0].description.split('\n')" t-as="specification">
+                                <t t-if="specification.strip()">
+                                    <!-- Split each line at the first colon -->
+                                    <t t-set="parts" t-value="specification.split(':', 1)"/>
+                                    <table style="width: 100%;">
+                                            <tr>
+                                                <td style="width: 40%; font-size: 22px;font-weight: bold; padding-left:10px;padding-right:10px;">
+                                                    <t t-esc="parts[0].strip()"/>
+                                                </td>
+                                                <td style="width: 60%; font-size: 22px;font-weight: bold; padding-left:10px;padding-right:10px;">
+                                                    <t t-esc="': ' + parts[1].strip() if len(parts) > 1 else ''"/>
+                                                </td>
+                                            </tr>
+                                    </table>
+
+                                    <!-- <tr t-if="len(parts) > 1">
+                                        <td style="font-size: 22px;font-weight: bold; padding-left:10px;padding-right:10px;">
+                                            Display the first part
+                                            <t t-esc="parts[0].strip()" />
+                                        </td>
+                                        <td style="font-size: 22px;font-weight: bold;padding-left:10px;padding-right:10px;">
+                                            Display the colon and the second part
+                                            <t t-esc="': ' + parts[1].strip() if len(parts) > 1 else ''"/>
+                                        </td>
+                                    </tr> -->
+                                </t>
+                            </t>
+                                <!-- <tr>
+                                    <td style="font-size: 22px; font-weight: bold; padding: 10px;">
+                                        <span t-field="o.order_line.product_id[0].description"/>
+                                    </td>
+                                </tr> -->
+                            </table>
+                        </div>
+                    </div>
+                    <p style="text-align: center;font-size:12px;margin: 0;">
+                            OFF: KHASRA NO 86/23, VILLAGE GHEVRA, ROHTAK RD, 
+                            (NEAR HIRAN KUDNA MOR) MUNDKA UDYOG NAGAR, ROHTAK ROAD, 
+                            NEW DELHI, DELHI - 110081 (INDIA)
+                        </p>
+                        <p style="page-break-before: always"/>
+                        <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-1.png" alt="Image Description"/>
+                        <div class="a4-container page no-margin-padding" style="border:1px solid;margin-top:10px;font-size:22px;font-weight: bold;">
+                            <div class="col-12">
+                                <tr style="border-top:1px solid;font-family: Arial, sans-serif;">
+                                    <td><span t-field="o.note4"/></td>
+                                </tr>
+                            </div>
+                        </div>
+                        <p style="text-align: center;font-size:12px;margin: 0;">
+                            OFF: KHASRA NO 86/23, VILLAGE GHEVRA, ROHTAK RD, 
+                            (NEAR HIRAN KUDNA MOR) MUNDKA UDYOG NAGAR, ROHTAK ROAD, 
+                            NEW DELHI, DELHI - 110081 (INDIA)
+                        </p>
+                    </t>
+                    <t t-else="">
+                       <style>
+                       .full-width-image {
+                                width: 100%;
+                                height: auto;
+                            }
+                            .a5-container {
+                        <!--width: 210mm; /* A4 width */-->
+                        height: 265mm; /* A4 height */
+                        border: 1px solid #000;
+                        box-sizing: border-box; /* Ensure padding and border do not increase element size */
+                        <!--margin: 10mm;-->
+                        <!--padding: 10mm;-->
+                        }
+                        </style> 
+                        <img class="full-width-image" src="/dw_sales_inherit/static/src/img/header-5.png" alt="Image Description"/>
+                        <h2 style="background-color:#D3D3D3;color:black;text-align:center;">
+                            <strong>
+                                <span t-if="o.state not in ['draft','sent']">ORDER CONFIRMATION</span>
+                                <span t-if="o.state in ['draft','sent']">QUOTATION</span>
+                            </strong>
+                        </h2>
+                        
+                        <div class="a5-container page no-margin-padding">
+                            <div class="row w-100 ml-0 mt-1">
+                                <div class="col-7 mb4" style="padding-left:4px;">
+                                    <table class="w-100 mt-3 custom-font-size">
+                                        <tbody style="border:1px solid;">
+                                            <tr>
+                                                <td style="padding-left:4px;"><strong>Party Name &amp; Address :- </strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left:5px;">
+                                                    <strong><span t-if="o.partner_id.name"><t t-esc="o.partner_id.name"/></span></strong><br/>
+                                                    <strong><span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/></span></strong><br/>
+                                                    <strong><span t-if="o.partner_id.street2"><t t-esc="o.partner_id.street2"/></span></strong>
+                                                    <strong>
+                                                        <span t-if="o.partner_id.city"><t t-esc="o.partner_id.city"/></span>
+                                                        <span t-if="o.partner_id.state_id.name"><t t-esc="o.partner_id.state_id.name"/></span>
+                                                        <span t-if="o.partner_id.country_id.name">, <t t-esc="o.partner_id.country_id.name"/></span>
+                                                        <span t-if="o.partner_id.zip">, <t t-esc="o.partner_id.zip"/></span>
+                                                    </strong><br/>
+                                                </td>
+                                            </tr>
+                                            <tr style="border-top:1px solid;">
+                                                <td style="padding-left:5px;">
+                                                    <strong>Contact Person: <span t-if="o.partner_id.function"><t t-esc="o.partner_id.function"/></span></strong><br/>
+                                                    <strong>Contact NO: <span t-if="o.partner_id.mobile"><t t-esc="o.partner_id.mobile"/></span></strong><br/>
+                                                    <strong>Email: <span t-if="o.partner_id.email"><t t-esc="o.partner_id.email"/></span></strong><br/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-5 mb4" style="padding-left:2px;border:1px solid;margin-left:-4px;">
+                                    <table class="w-100 mt-3 custom-font-size">
+                                        <tbody>
+                                            <tr>
+                                                <td style="padding-left:5px;">
+                                                    <strong>Quotation No.: <span t-if="o.name"><t t-esc="o.name"/></span></strong><br/>
+                                                    <strong>Quotation Date: <span t-if="o.date_order"><t t-esc="o.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd-MM-yyyy&quot;}"/></span></strong><br/>
+                                                    <strong>Compalint No.: <t t-esc="o.compalint_no"/></strong><br/><br/><br/>
+                                                    <strong>GSTIN: <t t-esc="o.partner_id.vat"/></strong>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row w-100 ml-0 mt-1" style="padding-top:2px;padding-bottom:10px;">
+                                <table class="w-100">
+                                    <thead style="border-top:1px solid;border-bottom:1px solid;color:black;">
+                                <tr>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;;"><strong>Sr.No</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Description Of Goods</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>HSN Code</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Qty</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>UOM</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Rate</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;"><strong>Amount</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-bottom:1px solid;">
+                                <t t-set="sr_no" t-value="0"/>
+                                <t t-set="total_qty" t-value="0"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                                <t t-set="packing_amount" t-value="0"/>
+                                <t t-set="freight_amount" t-value="0"/>
+                                <t t-set="ttl_qty" t-value="0"/>
+                                <t t-set="lines" t-value="o.order_line"/>
+                                <t t-foreach="lines" t-as="line">
+                                    <t t-if="line.product_id.name == 'Packing Charges'">
+                                      <t t-set="packing_amount" t-value="line.price_subtotal"/> 
+                                    </t> 
+                                    <t t-if="line.product_id.name == 'Freight'">
+                                      <t t-set="freight_amount" t-value="line.price_subtotal"/> 
+                                    </t> 
+                                    <tr t-if="line.product_id.name != 'Packing Charges' and line.product_id.name != 'Freight'" style="border-bottom:1px solid;">
+                                        <t t-set="sr_no" t-value="sr_no+1"/>
+                                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                                        <t t-set="ttl_qty" t-value="ttl_qty +  line.product_uom_qty"/>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="sr_no"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.name"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.l10n_in_hsn_code"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-esc="'%.2f'% line.product_uom_qty"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-field="line.product_uom"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-field="line.price_unit"/></td>
+                                        <td class="text-center o_price_total" style="padding-top:10px;padding-bottom:10px;"><span t-field="line.price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                              <tr>
+                                    <td style="border-right:1px solid;padding-right:5px;border-right:none;" colspan="3" class="text-right">TOTAL :</td>
+                                    <td style="padding-right:5px;" class="text-center"><t t-esc="ttl_qty"/> </td>
+                                    <td colspan="3"> </td>
+                                </tr>
+                            </table>
+                            </div>
+                            <table class="w-100">
+                                <tr style="border-top:1px solid;">
+                                    <t t-set="total_invoice_value" t-value="o.amount_tax + current_subtotal + packing_amount + freight_amount"/> 
+                                    <td colspan="4" style="border-bottom:none;padding-left:5px;"><strong>Rupees In Words  : </strong>
+                                    <t t-set="total_quotation_value_words" t-value="o.number_in_words('%.2f'% total_invoice_value)"/>
+                                    <t t-esc="total_quotation_value_words"/>
+                                    </td>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>Gross Amount :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                <!-- <tr t-if="o.advance_bal">
+                                    <td colspan="4" style="border-top:none;"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>ADVANCE AMOUNT:</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="o.advance_bal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr> -->
+                                <tr t-if="packing_amount">
+                                    <td colspan="4" style="border-top:none;"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>PACKING :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="packing_amount"/></strong></td>
+                                </tr>
+                                <tr t-if="freight_amount">
+                                    <td colspan="4" style="border-top:none;"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>FREIGHT :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="freight_amount"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <!-- <t t-set="total_invoice_value" t-value="current_subtotal + o.amount_tax"/> -->
+                                    <td colspan="4" style="border-top:none;"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>Total Taxable Amount :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="current_subtotal + packing_amount + freight_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td colspan="4" style="border-top:none;"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;"><strong>IGST :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"/>
+                                    <td colspan="2" class="text-left" style="border-left:1px solid;padding-left:5px;padding-right:5px;border-top:1px solid;border-bottom:1px solid;"><strong>Net Amount  :</strong></td>
+                                    <td class="text-right" style="padding-right:5px;border-top:1px solid;border-bottom:1px solid;"><strong><t t-esc="o.amount_tax + current_subtotal + packing_amount + freight_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                          </table>
+                            <div style="padding-left:10px;" class="row w-100">
+                                <div class="col-7">
+                                    <!-- <span style="padding-left:5px;"><strong>Terms Thanks &amp; Conditions :</strong></span><br/> -->
+                                    <span><strong><t t-esc="o.term_and_condn"/></strong></span>
+                                </div>
+                                <div style="padding-left:20px;" class="col-5 text-center">
+                                 <br/><br/>
+                                    <t t-if="o.stamp">
+                                <img t-attf-src="data:image/*;base64, {{o.stamp}} " style="height: 100px;width:100px;"/><br/><br/>
+                                </t>
+                                <t t-if="o.signature">
+                                <img t-attf-src="data:image/*;base64, {{o.signature}} " style="height: 100px;width:100px;"/><br/>
+                                </t>
+                                    <br/><br/>
+                                    <span><strong>For, Advance Services &amp; Parts</strong></span><br/>
+                                       <br/><br/><br/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </t>
+                    </t>
+                </t>
+            </t>
+       
+      
+</template>
+</odoo>

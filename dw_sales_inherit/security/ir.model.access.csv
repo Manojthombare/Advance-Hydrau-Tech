@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_installation_report,installation.report,model_installation_report,base.group_user,1,1,1,1
+access_warranty_report,warranty.report,model_warranty_report,base.group_user,1,1,1,1
+access_installation_records,installation.records,model_installation_records,base.group_user,1,1,1,1
+access_contact_person,contact.person,model_contact_person,base.group_user,1,1,1,1

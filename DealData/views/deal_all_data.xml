@@ -1,0 +1,202 @@
+<odoo>
+
+    <record id="action_open_deal_wizard" model="ir.actions.server">
+        <field name="name">Open Deal Wizard</field>
+        <field name="model_id" ref="model_crm_deal"/>
+        <field name="binding_model_id" ref="model_crm_deal"/>
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'type': 'ir.actions.act_window',
+    'name': 'Fetch Deal',
+    'res_model': 'deal.wizard',
+    'view_mode': 'form',
+    'target': 'new',
+}
+        </field>
+    </record>
+    <!-- Form View -->
+
+    <record id="view_crm_deal_form" model="ir.ui.view">
+            <field name="name">crm.deal.form</field>
+            <field name="model">crm.deal</field>
+            <field name="arch" type="xml">
+                <form string="Deal">
+                    <header>
+                        <button name="%(action_deal_wizard)d" string="Fetch Deal" type="action" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <notebook>
+                            <!-- First page of the notebook -->
+                            <page string="Basic Information">
+                                <group>
+                                    <field name="deal_id"/>
+                                    <field name="name"/>
+                                    <field name="amount"/>
+                                    <field name="base_currency_amount"/>
+                                    <field name="expected_close"/>
+                                    <field name="closed_date"/>
+                                    <field name="stage_updated_time"/>
+                                    <field name="probability"/>
+                                    <field name="updated_at"/>
+                                    <field name="created_at"/>
+                                    <field name="deal_pipeline_id"/>
+                                    <field name="deal_stage_id"/>
+                                    <field name="age"/>
+                                    <field name="last_assigned_at"/>
+                                    <field name="last_contacted_sales_activity_mode"/>
+                                    <field name="last_contacted_via_sales_activity"/>
+                                    <field name="expected_deal_value"/>
+                                    <field name="is_deleted"/>
+                                    <field name="rotten_days"/>
+                                    <field name="collaboration_id"/>
+                                    <field name="widget_collaboration_id"/>
+                                    <field name="open_deals_amount"/>
+                                    <field name="open_deals_count"/>
+                                    <field name="won_deals_amount"/>
+                                    <field name="won_deals_count"/>
+                                    <field name="last_contacted"/>
+                                    <field name="position"/>
+                                    <field name="conversations_link"/>
+                                    <field name="document_associations_link"/>
+                                    <field name="notes_link"/>
+                                    <field name="tasks_link"/>
+                                    <field name="appointments_link"/>
+                                </group>
+                                                    <group string="Custom Fields">
+                        <field name="cf_referred_by"/>
+                        <field name="cf_scrap_type"/>
+                        <field name="cf_metal_scrap_caterogy"/>
+                        <field name="cf_please_specify_the_metal_type"/>
+                        <field name="cf_nonmetal_category"/>
+                        <field name="cf_please_specify_the_nonmetal_type"/>
+                        <field name="cf_both_type"/>
+                        <field name="cf_requirement_type"/>
+                        <field name="cf_probability"/>
+                        <field name="cf_asap"/>
+                        <field name="cf_deal_collaborator"/>
+                        <field name="cf_order_confirmation"/>
+                        <field name="cf_add_quotation"/>
+                        <field name="cf_reason_for_lost_deal"/>
+                        <field name="cf_drop_reasons"/>
+                        <field name="cf_please_specify_others_drop_reason"/>
+                        <field name="cf_date_of_dispatch"/>
+                        <field name="cf_payment_type"/>
+                        <field name="cf_notes_of_deals"/>
+                        <field name="cf_deal_related_to"/>
+                        <field name="cf_related_clients_contacts_of_servicespares"/>
+                        <field name="cf_related_clients_contacts_of_service"/>
+                        <field name="cf_country_name"/>
+                        <field name="cf_hsn_no"/>
+                        <field name="cf_hsn"/>
+                    </group>
+                            </page>
+                            <!-- Second page of the notebook -->
+                            <page string="Custom Fields">
+                                <field name="custom_field_ids">
+                                    <tree>
+                                        <field name="cf_referred_by"/>
+                        <field name="cf_scrap_type"/>
+                        <field name="cf_metal_scrap_caterogy"/>
+                        <field name="cf_please_specify_the_metal_type"/>
+                        <field name="cf_nonmetal_category"/>
+                        <field name="cf_please_specify_the_nonmetal_type"/>
+                        <field name="cf_both_type"/>
+                        <field name="cf_requirement_type"/>
+                        <field name="cf_probability"/>
+                        <field name="cf_asap"/>
+                        <field name="cf_deal_collaborator"/>
+                        <field name="cf_order_confirmation"/>
+                        <field name="cf_add_quotation"/>
+                        <field name="cf_reason_for_lost_deal"/>
+                        <field name="cf_drop_reasons"/>
+                                        <field name="cf_please_specify_others_drop_reason" optional="hide"/>
+                                        <field name="cf_date_of_dispatch" optional="hide"/>
+                                        <field name="cf_payment_type" optional="hide"/>
+                                        <field name="cf_notes_of_deals" optional="hide"/>
+                                        <field name="cf_deal_related_to" optional="hide"/>
+                                        <field name="cf_related_clients_contacts_of_servicespares" optional="hide"/>
+                                        <field name="cf_related_clients_contacts_of_service" optional="hide"/>
+                                        <field name="cf_country_name" optional="hide"/>
+                                        <field name="cf_hsn_no" optional="hide"/>
+                                        <field name="cf_hsn" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    <!-- List View -->
+    <record id="view_crm_deal_tree" model="ir.ui.view">
+        <field name="name">crm.deal.tree</field>
+        <field name="model">crm.deal</field>
+        <field name="arch" type="xml">
+            <tree string="CRM Deals">
+                <field name="deal_id"/>
+                <field name="name"/>
+                <field name="amount"/>
+                <field name="base_currency_amount"/>
+                <field name="expected_close"/>
+                <field name="closed_date"/>
+                <field name="stage_updated_time"/>
+                <field name="probability"/>
+                <field name="updated_at"/>
+                <field name="created_at"/>
+                <field name="deal_pipeline_id"/>
+                <field name="deal_stage_id"/>
+                <field name="age"/>
+                <field name="expected_deal_value"/>
+                <field name="is_deleted"/>
+                <field name="rotten_days"/>
+                <!-- Custom Fields -->
+                <field name="open_deals_amount"/>
+                <field name="open_deals_count"/>
+                <field name="won_deals_amount"/>
+                <field name="won_deals_count"/>
+                <field name="last_contacted"/>
+                <field name="position"/>
+            <field name="cf_referred_by" optional="hide"/>
+            <field name="cf_scrap_type" optional="hide"/>
+            <field name="cf_metal_scrap_caterogy" optional="hide"/>
+            <field name="cf_please_specify_the_metal_type" optional="hide"/>
+            <field name="cf_nonmetal_category" optional="hide"/>
+            <field name="cf_please_specify_the_nonmetal_type" optional="hide"/>
+            <field name="cf_both_type" optional="hide"/>
+            <field name="cf_requirement_type" optional="hide"/>
+            <field name="cf_probability" optional="hide"/>
+            <field name="cf_asap" optional="hide"/>
+            <field name="cf_deal_collaborator" optional="hide"/>
+            <field name="cf_order_confirmation" optional="hide"/>
+            <field name="cf_add_quotation" optional="hide"/>
+            <field name="cf_reason_for_lost_deal" optional="hide"/>
+            <field name="cf_drop_reasons" optional="hide"/>
+            <field name="cf_please_specify_others_drop_reason" optional="hide"/>
+            <field name="cf_date_of_dispatch" optional="hide"/>
+            <field name="cf_payment_type" optional="hide"/>
+            <field name="cf_notes_of_deals" optional="hide"/>
+            <field name="cf_deal_related_to" optional="hide"/>
+            <field name="cf_related_clients_contacts_of_servicespares" optional="hide"/>
+            <field name="cf_related_clients_contacts_of_service" optional="hide"/>
+            <field name="cf_country_name" optional="hide"/>
+            <field name="cf_hsn_no" optional="hide"/>
+            <field name="cf_hsn" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_crm_deal" model="ir.actions.act_window">
+        <field name="name">CRM Deals</field>
+        <field name="res_model">crm.deal</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menuitem -->
+    <menuitem id="menu_crm_deal_root" name="CRM Deals" sequence="10"/>
+    <menuitem id="menu_crm_deal" name="All Deals data" parent="menu_deal_data_root" action="action_crm_deal" sequence="10"/>
+</odoo>
+

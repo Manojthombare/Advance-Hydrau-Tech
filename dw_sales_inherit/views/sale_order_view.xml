@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data> 
+        <!--Sale sale order Inherit Form View  -->
+        <record id ="inherit_sale_order_form_view" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                 <field name="discount_type"/>
+
+                   <!-- Conditional fields -->
+                        <field name="percentage_discount" attrs="{'invisible': [('discount_type', '!=', 'percentage')]}"/>
+                        <field name="flat_discount" attrs="{'invisible': [('discount_type', '!=', 'flat')]}"/>
+                </xpath>
+                <!-- <field name="pricelist_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field> -->
+                <field name="payment_term_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                
+                <!-- <field name="x_gst_treatment" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field> -->
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="consignee_name"/>
+                    <field name="po_ref"/>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="compalint_no"/>
+                    <field name="proforma_invoice_number"/>
+                    <field name="dispatch_message"/>
+                </xpath>
+                <xpath expr="//field[@name='note']" position="before">
+                    <field name="advance_bal"/>
+                    <field name="packing_id"/>
+                    <field name="fret"/>
+                    <field name="stamp" widget="image"/>
+                    <field name="signature" widget="image"/>
+               </xpath>
+                <xpath expr="//field[@name='note']" position="after">
+                    <field name="term_and_condn" class="oe-bordered-editor" nolabel="1" placeholder="Terms And Conditions Company2"/>
+                    <field name="note1" class="oe-bordered-editor" nolabel="1" placeholder="Terms1..."/>
+                    <field name="export_terms_condn" class="oe-bordered-editor" nolabel="1" placeholder="Terms And Conditions For Export"/>
+                    <field name="note4" class="oe-bordered-editor" nolabel="1" placeholder="Terms4..."/>
+                    <field name="bank_details" class="oe-bordered-editor" nolabel="1"/>
+                </xpath>
+            </field>
+        </record>  
+
+   </data>
+</odoo>

@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_proforma_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                     <t t-if="o.company_id.id == 1">
+                    <style>
+                      @page {
+                            size: A4;
+                            margin: 10mm;
+                        }
+                        .no-margin-padding {
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .bordered-table {
+                            width: 100%;
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                        }
+                        .bordered-table td,
+                        .bordered-table th {
+                            border: 1px solid black;
+                        }
+                        .full-page-image {
+                            width: 100%;
+                            height: auto;
+                            margin: 0;
+                            padding: 10px 0;
+                        }
+                        .page {
+                            page-break-after: always;
+                            border: 1px solid black;
+                            height: 100%;
+                        }
+                        /* Resetting margins and padding for the document */
+                        body, html {
+                        margin: 0;
+                        padding: 0;
+                        height: 100%;
+                        }
+
+                        body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        }
+
+                        .a4-container {
+                        <!--width: 210mm; /* A4 width */-->
+                        height: 315mm; /* A4 height */
+                        border: 1px solid #000;
+                        box-sizing: border-box; /* Ensure padding and border do not increase element size */
+                        <!-- margin: 10mm; -->
+                        <!-- padding: 10mm; -->
+                        }
+                    </style>    
+                    <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header-4.png" alt="Image Description" style="width: 100%; height: auto;display: block;"/>
+                   
+                    <div class="a4-container page no-margin-padding" style="margin-top:5px;">
+                       <div class="row no-margin-padding" style="border:1px solid;">
+                          <div class="col-12 no-margin-padding"  >
+                            <table class="w-100">
+                             <tbody> 
+                              <tr style="height:30px;">
+                               <td style="background-color:yellow;color:black;">
+                                <center><strong><b><span>PROFORMA INVOICE</span></b></strong></center>
+                                </td>
+                              </tr>
+                             </tbody>  
+                            </table>
+                         </div>
+                       </div>
+                        <div class="row no-margin-padding" style="display: flex;align-items: stretch;border:1px solid;border-left:none;border-right:none;">
+                            <div class="col-7 no-margin-padding">
+                                <table class="w-100" style="border-right:1px solid;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                                <strong>Buyer’s Contact Person Detail</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;">
+                                                <strong><span t-if="o.partner_id.name" t-field="o.partner_id.name"/></strong><br/>
+                                                <strong><span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/></span></strong><br/>
+                                                <strong><span t-if="o.partner_id.email"><t t-esc="o.partner_id.email"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-5 text-left no-margin-padding">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-left:5px;">
+                                                <strong>P.I. NO : <span t-if="o.proforma_invoice_number"><t t-esc="o.proforma_invoice_number"/></span></strong><br/>
+                                                <strong>DATED :<span t-if="o.date_order"><t t-esc="o.date_order"/></span></strong><br/>
+                                                <strong>P.O. NO: <span t-if="o.po_ref"><t t-esc="o.po_ref"/></span></strong><br/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row no-margin-padding">
+                            <div class="col-6 no-margin-padding">
+                                <table class="w-100" style="border-right:1px solid;">
+                                    <tbody>
+                                        <tr>
+                                           <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                              <strong>Buyer (Bill to)</strong>
+                                           </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;padding-right:4px;">
+                                                <strong style="text-align:center;"><span t-if="o.partner_id.name"><t t-esc="o.partner_id.name"/></span></strong><br/>
+                                                <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/>,<t t-esc="o.partner_id.street2"/>,<t t-esc="o.partner_id.city"/>,<t t-esc="o.partner_id.zip"/></span><br/>
+                                                <strong>State: <span class="text-left" t-if="o.partner_id.state_id.name"><t t-esc="o.partner_id.state_id.name"/></span></strong><br/>
+                                                <strong>GSTIN: <span class="text-left" t-if="o.partner_id.vat"><t t-esc="o.partner_id.vat"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6 no-margin-padding">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr>
+                                           <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                              <strong>Consignee (Ship to)</strong>
+                                           </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;padding-right:4px;">
+                                                <strong class="text-center"><span t-if="o.consignee_name.name"><t t-esc="o.consignee_name.name"/></span></strong><br/>
+                                                <span t-if="o.consignee_name.street"><t t-esc="o.consignee_name.street"/>,<t t-esc="o.consignee_name.street2"/>,<t t-esc="o.partner_id.city"/>,<t t-esc="o.partner_id.zip"/></span><br/>
+                                                <strong> <span class="text-left" t-if="o.consignee_name.state_id.name">State:<t t-esc="o.consignee_name.state_id.name"/></span></strong><br/>
+                                                <strong><span class="text-left" t-if="o.consignee_name.vat">GSTIN: <t t-esc="o.consignee_name.vat"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <table class="w-100">
+                            <thead style="border-top:1px solid;border-bottom:1px solid;color:black;font-size:15px;">
+                                <tr>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;;"><strong>Sr.No</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Description Of Goods</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>HSN Code</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Qty</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Rate</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;"><strong>Amount</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-bottom:1px solid;">
+                                <t t-set="sr_no" t-value="0"/>
+                                <t t-set="total_qty" t-value="0"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                                <t t-set="lines" t-value="o.order_line"/>
+                                <t t-foreach="lines" t-as="line">
+                                    <tr style="border-bottom:1px solid;">
+                                        <t t-set="sr_no" t-value="sr_no+1"/>
+                                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="sr_no"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.name"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.l10n_in_hsn_code"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-esc="'%.2f'% line.product_uom_qty"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-field="line.price_unit"/></td>
+                                        <td class="text-center o_price_total" style="padding-top:10px;padding-bottom:10px;"><span t-field="line.price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="border-bottom:1px solid;">
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="5" class="text-right">TOTAL TAXABLE AMOUNT</td>
+                                    <td style="padding-right:5px;" class="text-right"><t t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                                </tr>
+                                <t t-set="tax_data" t-value="o.get_tax_data()"/>
+                                <t t-set="total_tax_amt" t-value="0"/>
+                                <t t-foreach="tax_data" t-as="tax">
+                                    <tr>
+                                        <td colspan="4" class="text-right" style="border-right:1px solid;padding-right:5px;">
+                                            <t t-esc="tax[0]"/> @ <t t-esc="tax[1]"/>%
+                                        </td>
+                                        <td class="text-right" style="border-right:1px solid;padding-right:5px;">
+                                            <t t-esc="tax[1]"/>%
+                                        </td>
+                                        <td class="text-right" style="padding-right:5px;">
+                                            <t t-esc="tax[3]"/>
+                                        </td>
+                                        <t t-if="tax[3] != '-'">
+                                            <t t-set="total_tax_amt" t-value="total_tax_amt + tax[3]"/>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr style="border-bottom:1px solid;border-top:1px solid;">
+                                    <t t-set="total_invoice_value" t-value="current_subtotal + o.amount_tax"/>
+                                    <td colspan="5" class="text-right" style="border-right:1px solid;padding-right:5px;"><strong>TOTAL AMOUNT</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="total_invoice_value" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                 <tr t-if="o.packing_id">
+                                    
+                                    <td colspan="5" class="text-right" style="border-right:1px solid;padding-right:5px;">PACKING CHARGES</td>
+                                    <td class="text-right" style="border-bottom:1px solid;padding-right:5px;"><t t-esc="o.packing_id"/></td>
+                                </tr>
+                                <tr t-if="o.fret">
+                                    <td colspan="5" class="text-right" style="border-right:1px solid;padding-right:5px;">FREIGHT</td>
+                                    <td class="text-right" style="border-bottom:1px solid;padding-right:5px;"><t t-esc="o.fret"/></td>
+                                </tr>
+                        
+                                <tr>
+                                    <t t-set="total_amt_to_paid" t-value="total_invoice_value - o.advance_bal"/>
+                                    <td colspan="5" class="text-right" style="border-right:1px solid;padding-right:5px;">LESS ADVANCE</td>
+                                    <td class="text-right" style="border-bottom:1px solid;padding-right:5px;"><t t-esc="o.advance_bal"/></td>
+                                </tr>
+                                <tr style="border-bottom:1px solid;">
+                                    <t t-set="amt_ttl" t-value="total_amt_to_paid + o.packing_id + o.fret"/>
+                                    <td colspan="5" class="text-right" style="border-right:1px solid;padding-right:5px;"><strong>TOTAL AMOUNT TO BE PAID AGAINST P.I.</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong><t t-esc="amt_ttl" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+
+                                <tr style="border-bottom:1px solid;">
+                                    
+                                      <strong><t t-set="total_amt" t-value="o.number_in_words('%.2f'% amt_ttl)"/></strong>
+                                   
+                                    <td colspan="6" class="text-left" style="padding-left:5px;"><strong><t t-esc="total_amt"/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="row mt32 no-margin-padding">
+                            <div class="col-12">
+                                <p><strong><t t-esc="o.dispatch_message"/></strong></p>
+                                <span>Our bank account details are:</span><br/>
+                                <span><b>ADVANCE HYDRAU – TECH PVT. LTD.</b></span><br/>
+                                <span><b>AXIS BANK LTD, NARELA, DELHI BRANCH</b></span><br/>
+                                <span><b>BRANCH CODE – 1260</b></span><br/>
+                                <span><b>A/C NO. 916030006062915</b></span><br/>
+                                <span><b>RTGS – UTIB0001260</b></span><br/>
+                                <span><b>GST No. 07AAACA2012P1ZX</b></span><br/><br/>
+                                <span><b>Thanks &amp; Regards</b></span><br/><br/>
+                                <span><b>For-Advance Hydrau-Tech Pvt.Ltd</b></span><br/>
+                                <t t-if="o.stamp">
+                                <img t-attf-src="data:image/*;base64, {{o.stamp}} " style="height: 100px;width:100px;"/><br/><br/>
+                                </t>
+                                <t t-if="o.signature">
+                                <img t-attf-src="data:image/*;base64, {{o.signature}} " style="height: 100px;width:100px;"/><br/>
+                                </t>
+                                <span><b>Sanjeev Choudhary</b></span><br/>
+                                <span><b>(Sr. Manager - Sales)</b></span><br/><br/>
+                                <span><p>*This is a computer generated Proforma Invoice and does not require signature.</p></span><br/>
+                            </div>
+                        </div>
+                        <div class="row mt32 no-margin-padding">
+                            <div class="col-12 text-right">
+                            <span><b>Khasra No. 86/23, Village Ghevra, Near Hiran Kudna Mor</b></span><br/>
+                                <span><b>New Rohtak Road, New Delhi – 110 081 (INDIA)</b></span><br/>
+                                <span><b>Tel: 91-011-28353730, Fax: 91-11-27017409</b></span><br/>
+                                <span><b>E-mail: sales@ahtpl.in, info@ahtpl.in, service@ahtpl.in</b></span>
+                                 
+                            </div>
+                        </div>    
+                                
+
+                    </div>
+                    </t>
+
+                    <!-- For Second Company -->
+                    <t t-else="">
+                       <style>
+                      @page {
+                            size: A4;
+                            margin: 10mm;
+                        }
+                        .no-margin-padding {
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .bordered-table {
+                            width: 100%;
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                        }
+                        .bordered-table td,
+                        .bordered-table th {
+                            border: 1px solid black;
+                        }
+                        .full-page-image {
+                            width: 100%;
+                            height: auto;
+                            margin: 0;
+                            padding: 10px 0;
+                        }
+                        .page {
+                            page-break-after: always;
+                            border: 1px solid black;
+                            height: 100%;
+                        }
+                        /* Resetting margins and padding for the document */
+                        body, html {
+                        margin: 0;
+                        padding: 0;
+                        height: 100%;
+                        }
+
+                        body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        }
+                        .full-width-image {
+                                width: 100%;
+                                height: auto;
+                                padding-bottom:2px;
+                            } 
+                        .a5-container {
+                        <!-- width: 210mm; /* A4 width */ -->
+                        height: 270mm; /* A4 height */
+                        border: 1px solid #000;
+                        box-sizing: border-box; /* Ensure padding and border do not increase element size */
+                        <!-- margin: 10mm;
+                        padding: 10mm; -->
+                        }
+                    </style>  
+                    <img class="full-width-image" src="/dw_sales_inherit/static/src/img/header-5.png" alt="Image Description"/>
+                    
+                    <div class="a5-container page no-margin-padding">
+                       <div class="row  no-margin-padding" style="border-right:1px solid;border-bottom:1px solid;">
+                          <div class="col-12 no-margin-padding">
+                            <table class="w-100">
+                             <tbody> 
+                              <tr style="height:30px;font-size:18px;">
+                               <td style="background-color:#D3D3D3;color:black; padding:10px;">
+                                <center><strong><b><span>PROFORMA INVOICE</span></b></strong></center>
+                                </td>
+                              </tr>
+                             </tbody>  
+                            </table>
+                         </div>
+                       </div>
+                        <div class="row no-margin-padding" style="display: flex;align-items: stretch;border:1px solid;border-left:none;border-right:none;">
+                            <div class="col-7 no-margin-padding" style="border-right:1px solid;">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr style="height:25px;">
+                                            <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                                <strong>Buyer’s Contact Person Detail</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;">
+                                                <strong>NAME : <span t-if="o.partner_id.name" t-field="o.partner_id.name"/></strong><br/>
+                                                <strong>MOB : <span t-if="o.partner_id.mobile"><t t-esc="o.partner_id.mobile"/></span></strong><br/>
+                                                <strong>E-MAIL : <span t-if="o.partner_id.email"><t t-esc="o.partner_id.email"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-5 text-left no-margin-padding" style="background-color:#D3D3D3;">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-left:5px;border-left:1px solid;">
+                                                <strong>Proforma No : <span t-if="o.proforma_invoice_number"><t t-esc="o.proforma_invoice_number"/></span></strong><br/>
+                                                <strong>Proforma Date : <span t-if="o.date_order"><t t-esc="o.date_order"/></span></strong><br/>
+                                                <strong>Compalint No. : <span t-if="o.compalint_no"><t t-esc="o.compalint_no"/></span></strong><br/>
+                                                <strong>Po. Ref. No &amp; Date : <span t-if="o.po_ref"><t t-esc="o.po_ref"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row no-margin-padding">
+                            <div class="col-6 no-margin-padding" style="border-right:1px solid;">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr style="height:25px;">
+                                           <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                              <strong>Buyer (Bill to)</strong>
+                                           </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;padding-right:4px;border-right:1px solid;">
+                                                <strong style="text-align:center;"><span t-if="o.partner_id.name"><t t-esc="o.partner_id.name"/></span></strong><br/>
+                                                <span t-if="o.partner_id.street"><t t-esc="o.partner_id.street"/>,<t t-esc="o.partner_id.street2"/>,<t t-esc="o.partner_id.city"/>,<t t-esc="o.partner_id.zip"/></span><br/>
+                                                <strong><span class="text-left" t-if="o.partner_id.state_id.name">State: <t t-esc="o.partner_id.state_id.name"/></span></strong><br/>
+                                                <strong><span class="text-left" t-if="o.partner_id.vat">GSTIN: <t t-esc="o.partner_id.vat"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-6 no-margin-padding">
+                                <table class="w-100">
+                                    <tbody>
+                                        <tr style="height:25px;">
+                                           <td class="text-center" style="padding-left:4px;border-bottom:1px solid;">
+                                              <strong>Consignee (Ship to)</strong>
+                                           </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left:4px;padding-right:4px;">
+                                                <strong class="text-center"><span t-if="o.consignee_name.name"><t t-esc="o.consignee_name.name"/></span></strong><br/>
+                                                <span t-if="o.consignee_name.street"><t t-esc="o.consignee_name.street"/>,<t t-esc="o.consignee_name.street2"/>,<t t-esc="o.consignee_name.city"/>,<t t-esc="o.consignee_name.zip"/></span><br/>
+                                                <strong><span class="text-left" t-if="o.consignee_name.state_id.name">State: <t t-esc="o.consignee_name.state_id.name"/></span></strong><br/>
+                                                <strong><span class="text-left" t-if="o.consignee_name.vat">GSTIN: <t t-esc="o.consignee_name.vat"/></span></strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <table class="w-100">
+                            <thead style="border-top:1px solid;border-bottom:1px solid;color:black;font-size:15px;">
+                                <tr>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;;"><strong>Sr.No</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Description Of Goods</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>HSN Code</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Qty</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>UOM</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><strong>Rate</strong></th>
+                                    <th class="text-center" style="padding-top:10px;padding-bottom:10px;"><strong>Amount</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody style="border-bottom:1px solid;">
+                                <t t-set="sr_no" t-value="0"/>
+                                <t t-set="total_qty" t-value="0"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                                <t t-set="packing_amount" t-value="0"/>
+                                <t t-set="freight_amount" t-value="0"/>
+                                <t t-set="lines" t-value="o.order_line"/>
+                                <t t-foreach="lines" t-as="line">
+                                    <t t-if="line.product_id.name == 'Packing Charges'">
+                                      <t t-set="packing_amount" t-value="line.price_subtotal"/> 
+                                    </t> 
+                                    <t t-if="line.product_id.name == 'Freight'">
+                                      <t t-set="freight_amount" t-value="line.price_subtotal"/> 
+                                    </t> 
+                                    <tr t-if="line.product_id.name != 'Packing Charges' and line.product_id.name != 'Freight'" style="border-bottom:1px solid;">
+                                        <t t-set="sr_no" t-value="sr_no+1"/>
+                                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal"/>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="sr_no"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.name"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><t t-esc="line.product_id.l10n_in_hsn_code"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-esc="'%.2f'% line.product_uom_qty"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-field="line.product_uom"/></td>
+                                        <td class="text-center" style="padding-top:10px;padding-bottom:10px;border-right:1px solid;"><span t-field="line.price_unit"/></td>
+                                        <td class="text-center o_price_total" style="padding-top:10px;padding-bottom:10px;"><span t-field="line.price_subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                             
+                        </table>
+                        <table class="w-100">
+                                <t t-set="tax_data" t-value="o.get_tax_data()"/>
+                                <t t-set="total_tax_amt" t-value="0"/>
+                                <t t-foreach="tax_data" t-as="tax">
+                                    <tr>
+                                        <!-- <td colspan="4" class="text-right" style="border-right:1px solid;padding-right:5px;">
+                                            <t t-esc="tax[0]"/> @ <t t-esc="tax[1]"/>%
+                                        </td>
+                                        <td class="text-right" style="border-right:1px solid;padding-right:5px;">
+                                            <t t-esc="tax[1]"/>%
+                                        </td>
+                                        <td class="text-right" style="padding-right:5px;">
+                                            <t t-esc="tax[3]"/>
+                                        </td> -->
+                                        <t t-if="tax[3] != '-'">
+                                            <t t-set="total_tax_amt" t-value="total_tax_amt + tax[3]"/>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <t t-set="total_invoice_value" t-value="o.amount_tax + current_subtotal + packing_amount + freight_amount"/>
+
+                                <tr>
+                                    <strong><t t-set="total_amt" t-value="o.number_in_words('%.2f'% total_invoice_value)"/></strong>
+                                    <td style="border-right:1px solid;padding-left:5px;" colspan="4"><strong><t t-esc="total_amt"/></strong></td>
+                                    <td class="text-center" colspan="2" style="background-color:#D3D3D3;">TOTAL GROSS AMOUNT:</td>
+                                    <td colspan="1" style="padding-right:5px;background-color:#D3D3D3;" class="text-right"><t t-esc="current_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                                </tr>
+                                <t t-set="advance_amt" t-value="o.advance_bal"/>
+                             
+                                <tr t-if="packing_amount">
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" class="text-center">PACKING  </td>
+                                    <td colspan="1" style="padding-right:5px;" class="text-right"><strong><t t-esc="packing_amount"/></strong></td>
+                                </tr>
+                                <tr t-if="freight_amount">
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" class="text-center">FREIGHT  </td>
+                                    <td colspan="1" style="padding-right:5px;" class="text-right"><strong><t t-esc="freight_amount"/></strong></td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" style="padding-left:5px;" class="text-center"><strong>TOTAL TAXABLE AMOUNT</strong></td>
+                                    <td colspan="1" class="text-right" style="padding-right:5px;"><strong><t t-esc="current_subtotal + packing_amount + freight_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" class="text-center">Interstate GST @ 18%</td>
+                                    <td class="text-right" style="padding-right:5px;"><t t-esc="o.amount_tax"/></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4" ></td>
+                                    <td colspan="2" class="text-center"><strong>Round off</strong></td>
+                                    <td class="text-right" style="padding-right:5px;"><strong>-</strong></td>
+                                </tr> -->
+                                 <tr>
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" style="border-top:1px solid;border-bottom:1px solid;" class="text-center"><strong>TOTAL AMOUNT :</strong></td>
+                                    <td class="text-right" style="border-top:1px solid;border-bottom:1px solid;padding-right:5px;"><strong><t t-esc="o.amount_tax + current_subtotal + packing_amount + freight_amount" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                 <tr t-if="advance_amt > 0.00">
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" style="border-top:1px solid;border-bottom:1px solid;" class="text-center"><strong>ADVANCE AMOUNT :</strong></td>
+                                    <td class="text-right" style="border-top:1px solid;border-bottom:1px solid;padding-right:5px;"><strong><t t-esc="advance_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                                <tr t-if="advance_amt > 0.00">
+                                    <td style="border-right:1px solid;padding-right:5px;" colspan="4"/>
+                                    <td colspan="2" style="border-top:1px solid;border-bottom:1px solid;" class="text-center"><strong>BALANCE TO BE PAID:</strong></td>
+                                    <td class="text-right" style="border-top:1px solid;border-bottom:1px solid;padding-right:5px;"><strong><t t-esc="(o.amount_tax + current_subtotal + packing_amount + freight_amount) - advance_amt" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                                </tr>
+                            </table>    
+                        <div class="row w-100 mt32 no-margin-padding">
+                            <div class="col-6">
+                                <span>Bank A/c. details:</span><br/>
+                                <span><b>ADVANCE SERVICES AND PARTS</b></span><br/>
+                                <span><b>AXIS BANK LTD, NARELA, DELHI BRANCH , BRANCH CODE – 1260</b></span><br/>
+                                <span><b>A/C NO. 919020058693583</b></span><br/>
+                                <span><b>RTGS – UTIB0001260</b></span><br/>
+                             </div>
+                             <div class="col-6 text-right">
+                                  <br/>
+                                <span><b>For:Advance Services &amp;Parts</b></span><br/><br/>
+                                <t t-if="o.stamp">
+                                <img t-attf-src="data:image/*;base64, {{o.stamp}} " style="height: 100px;width:100px;"/><br/><br/>
+                                </t>
+                                <t t-if="o.signature">
+                                <img t-attf-src="data:image/*;base64, {{o.signature}} " style="height: 100px;width:100px;"/><br/>
+                                </t>
+                                <span><b>Authorised Signature</b></span><br/>
+                                
+                             </div>
+                        </div>
+                                
+
+                    </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+        
+    </template>
+</odoo>

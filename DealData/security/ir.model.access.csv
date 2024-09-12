@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_deal_data,Access Deal Data,model_deal_data,,1,1,1,1
+access_deal_setting_fields,Access deal.setting.fields,model_deal_setting_fields,,1,1,1,1
+access_deal_payment_status_choice,Access deal.payment.status.choice,model_deal_payment_status_choice,,1,1,1,1
+
+
+access_crm_deal_user,access.crm.deal.user,model_crm_deal,base.group_user,1,1,1,1
+access_crm_deal_custom_field_user,access.crm.deal.custom.field.user,model_crm_deal_custom_field,base.group_user,1,1,1,1
+access_crm_deal_collaboration_user,access.crm.deal.collaboration.user,model_crm_deal_collaboration,base.group_user,1,1,1,1
+access_crm_deal_widget_collaboration_user,access.crm.deal.widget.collaboration.user,model_crm_deal_widget_collaboration,base.group_user,1,1,1,1
+access_crm_deal.wizard,access.deal.wizard,model_deal_wizard,base.group_user,1,1,1,1

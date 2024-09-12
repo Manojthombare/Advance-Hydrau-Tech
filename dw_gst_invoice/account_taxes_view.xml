@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="account_taxes_form_view" model="ir.ui.view">
+            <field name="name">account.tax</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="x_gst_type" />
+                    <field name="x_tax_weight" />
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

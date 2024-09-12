@@ -1,0 +1,118 @@
+<odoo>
+
+
+<data noupdate="1">
+        <record id="seq_installation_report" model="ir.sequence">
+            <field name="name">Installation Report Sequence</field>
+            <field name="code">installation.report.sequence</field>
+            <field name="prefix">COMP/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+
+    <!-- Form View -->
+    <record id="view_form_installation_report" model="ir.ui.view">
+        <field name="name">installation.report.form</field>
+        <field name="model">installation.report</field>
+        <field name="arch" type="xml">
+            <form string="Installation Report">
+                <sheet>
+                <group>
+                    <group>
+                        <field name="company_name"/>
+                        <field name="complaint_no"/>
+                      
+                        <field name="installation_date"/>
+                        <field name="engineer_name"/>
+                        <field name="machine_no"/>
+                        
+                        <br />
+                        <br />
+                        <field name="party_signature"/>
+                        <field name="service_engineer"/>
+                    </group>
+                    <group string="Machine Check By Service Personnel">
+                        <field name="nut_bolt_checked"/>
+                        <field name="wire_checked"/>
+                        <field name="hose_pipe_tightened"/>
+                        <field name="oil_checked"/>
+                        <field name="power_supply_checked"/>
+                        <field name="machine_working_mode"/>
+                          <br />
+                        <field name="scrap_type"/>
+                        <field name="bales_made"/>
+                        <field name="training_given_to"/>
+                        <field name="trainee_name"/>
+                        <field name="trainee_designation"/>
+                    </group>
+                    </group>
+               
+            <group>
+                    <group string="Number of Leakage Found:">
+                        <field name="no_of_leakage_1"/>
+                        <field name="no_of_leakage_2"/>
+                        <field name="no_of_leakage_3"/>
+                    </group>
+                    <group string="Any Part Missing From Machine:">
+                        <field name="missing_part_1"/>
+                        <field name="missing_part_2"/>
+                        <field name="missing_part_3"/>
+                    </group>
+                    <group string="Any Welding Problem in Machine:">
+                        <field name="welding_problem_in_machine_1"/>
+                        <field name="welding_problem_in_machine_2"/>
+                        <field name="welding_problem_in_machine_3"/>
+                    </group>
+                    <group string="Any Problem in Machine:">
+                        <field name="problem_in_machine_1"/>
+                        <field name="problem_in_machine_2"/>
+                        <field name="problem_in_machine_3"/>
+                    </group>
+            </group>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_tree_installation_report" model="ir.ui.view">
+        <field name="name">installation.report.tree</field>
+        <field name="model">installation.report</field>
+        <field name="arch" type="xml">
+            <tree string="Installation Reports">
+                <field name="company_name"/>
+                <field name="complaint_no"/>
+                <field name="engineer_name"/>
+                <field name="installation_date"/>
+                <field name="scrap_type"/>
+                <field name="bales_made"/>
+                <field name="training_given_to"/>
+                <field name="trainee_name"/>
+                <field name="trainee_designation"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action 
+    <record id="action_installation_report" model="ir.actions.act_window">
+        <field name="name">Installation Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">installation.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html"><p>Create First Entry</p></field>
+    </record> -->
+
+        <record id="action_installation_report" model="ir.actions.act_window">
+        <field name="name">Installation Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">installation.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="help" type="html"><p>Create First Entry</p></field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_installation_report" name="Installation Report" action="action_installation_report" sequence="98" parent="sale.sale_order_menu"/>
+</odoo>

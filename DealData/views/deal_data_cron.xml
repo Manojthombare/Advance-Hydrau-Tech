@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_deal_data_form" model="ir.ui.view">
+        <field name="name">deal.data.form</field>
+        <field name="model">deal.data</field>
+        <field name="arch" type="xml">
+            <form string="Deal Data">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="model_class_name"/>
+                        <field name="user_id"/>
+                        <field name="is_default"/>
+                        <field name="updated_at"/>
+                        <field name="user_name"/>
+                        <field name="current_user_permissions"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_deal_data_tree" model="ir.ui.view">
+        <field name="name">deal.data.tree</field>
+        <field name="model">deal.data</field>
+        <field name="arch" type="xml">
+            <tree string="Deal Data">
+                <field name="name"/>
+                <field name="model_class_name"/>
+                <field name="user_id"/>
+                <field name="is_default"/>
+                <field name="updated_at"/>
+                <field name="user_name"/>
+                <field name="current_user_permissions"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_deal_data" model="ir.actions.act_window">
+        <field name="name">Deal Data</field>
+        <field name="res_model">deal.data</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_deal_data_tree"/>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_deal_data_root" name="CRM Deals" sequence="1"/>
+    <menuitem id="menu_deal_data" name="Deal Data" parent="menu_deal_data_root" action="action_deal_data" sequence="1"/>
+
+    <!-- Form View for DealSettingFields -->
+    <record id="view_deal_setting_fields_form" model="ir.ui.view">
+        <field name="name">deal.setting.fields.form</field>
+        <field name="model">deal.setting.fields</field>
+        <field name="arch" type="xml">
+            <form string="Deal Setting Fields">
+                <sheet>
+                    <group>
+                        <field name="label"/>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="default"/>
+                        <field name="actionable"/>
+                        <field name="position"/>
+                        <field name="base_model"/>
+                        <field name="required"/>
+                        <field name="quick_add_position"/>
+                        <field name="visible"/>
+                    </group>
+                    <group>
+                        <field name="choices_ids">
+                            <tree string="Choices">
+                                <field name="value"/>
+                                <field name="position"/>
+                            </tree>
+                            <form string="Choice">
+                                <sheet>
+                                    <group>
+                                        <field name="value"/>
+                                        <field name="position"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View for DealSettingFields -->
+    <record id="view_deal_setting_fields_tree" model="ir.ui.view">
+        <field name="name">deal.setting.fields.tree</field>
+        <field name="model">deal.setting.fields</field>
+        <field name="arch" type="xml">
+            <tree string="Deal Setting Fields">
+                <field name="label"/>
+                <field name="name"/>
+                <field name="type"/>
+                <field name="default"/>
+                <field name="actionable"/>
+                <field name="position"/>
+                <field name="base_model"/>
+                <field name="required"/>
+                <field name="quick_add_position"/>
+                <field name="visible"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action for DealSettingFields -->
+    <record id="action_deal_setting_fields" model="ir.actions.act_window">
+        <field name="name">Deal Setting Fields</field>
+        <field name="res_model">deal.setting.fields</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_deal_setting_fields_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first deal setting field
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_deal_setting_fields" name="Deal Setting Fields" parent="menu_deal_data_root" action="action_deal_setting_fields" sequence="10"/>
+
+</odoo>

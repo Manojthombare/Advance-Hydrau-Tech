@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_installation_records_form" model="ir.ui.view">
+        <field name="name">installation.records.form</field>
+        <field name="model">installation.records</field>
+        <field name="arch" type="xml">
+            <form string="Filter Installations">
+                <group>
+                    <field name="from_date" required="1"/>
+                    <field name="to_date" required="1"/>
+                </group>
+                <footer>
+                    <button name="fetch_records_between_dates" string="View Records" type="object" class="btn-primary"/>
+                    <button name="print_filter_records" string="Print Records (PDF)" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_installation_records" model="ir.actions.act_window">
+        <field name="name">Installation Report (Datewise)</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">installation.records</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_installation_records_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_installation_record" name="Print Records" sequence="95" action="action_installation_records" parent="sale.sale_order_menu"/>
+</odoo>

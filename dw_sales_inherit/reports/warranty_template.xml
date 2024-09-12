@@ -1,0 +1,285 @@
+<!-- <id: 	base.edit_menu_access></id:> -->
+<odoo>
+    <template id="report_warranty_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">            
+
+                        <style>
+                                 table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin: auto;
+                                    padding: auto;
+                                    font-family: 'Times New Roman';
+                                    font-size:16px;
+                                    
+                                }
+
+                               tr {
+                                     height: 30px;
+                                }
+
+        .first_column {
+            border: 1px solid black;
+            width: 50%;
+        }
+
+        .second_column {
+            border: 1px solid black;
+            width: 50%;
+
+        }
+
+        th {
+            width: 40%;
+            text-align: left;
+            padding-left: 5px;
+            padding-right: 0px;
+            font-size: 16px;
+
+        }
+        td {
+            width: 50%;
+            text-align: left;
+            padding-left: 5px;
+            padding-right: 0px;
+            font-size: 16px;
+        }
+     </style>
+         <img class="full-page-image" src="/dw_sales_inherit/static/src/img/header_warranty.png" alt="Image Description" style="padding-bottom:5px;width: 100%; height: auto;display: block;"/> 
+
+            <table width="100%">
+            <tr>
+                <td class="first_column">
+                    <table>
+                        <tr>
+                            <th>Company Name :</th>
+                            <td>
+                              <span t-field="o.name_of_company"/>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr>
+                            <th>Complaint No:</th>
+                            <td>
+                                <span t-field = "o.complaint_no"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="first_column">
+                    <table>
+                        <tr>
+                            <th>Address :</th>
+                            <td>
+                               <span t-field = "o.name_of_company.street"></span>,<span t-field = "o.name_of_company.city">,</span><span t-field = "o.name_of_company.state_id"></span>,
+                               <span t-field = "o.name_of_company.zip">,</span><span t-field = "o.name_of_company.country_id"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="second_column">
+                    <table>
+                        <tr rowspan="2">
+                            <th>Date:</th>
+                            <td>
+                                <span t-field = "o.date"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Reprentative Name:</th>
+                            <td>
+                               <span t-field = "o.representative_name"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td style="border: 1px solid; border-top:none ;border-bottom:none ; width:35%">
+                    <table>
+                        <tr rowspan="2">
+                            <th style="text-align: left; ">Contact Person:</th>
+                            <td>
+                               <span t-field = "o.name_of_company.function"></span>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="border: 1px solid ; border-top:none;border-bottom:none  ; width:25%">
+                    <table>
+                        <tr rowspan="2">
+                            <th >Mobile No.:</th>
+                            <td>
+                               <span t-field = "o.name_of_company.phone"></span>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="border: 1px solid ;border-top:none; border-bottom:none ; width:35%">
+                    <table>
+                        <tr rowspan="2">
+                            <th style="text-align: left;">Email Address:</th>
+                            <td>
+                               <span t-field = "o.name_of_company.email"></span>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <td style="border: 1px solid black; width:20%">
+                    <table>
+                        <tr>
+                            <th>1.Model No.</th>
+                        </tr>
+                        <tr>
+                            <th>2.Date of Dispatch</th>
+                        </tr>
+                        <tr>
+                            <th>3.Date of Installation</th>
+                        </tr>
+                        <tr>
+                            <th>4.Expiry of Warranty</th>
+                        </tr>
+                    </table>
+                </td>
+                <td style="border: 1px solid black; width:30%">
+                    <table>
+                        <tr>
+                            <td>
+                                <span t-field = "o.model_no"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span t-field = "o.date_of_dispatch"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span t-field = "o.date_of_installation"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span t-field = "o.expiry_of_warranty"></span></td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="border: 1px solid black; width:20%">
+                    <table>
+                        <tr>
+                            <th>5.Date of Arrival</th>
+                        </tr>
+                        <tr>
+                            <th>6.Date of Departure</th>
+                        </tr>
+                        <tr>
+                            <th>7.No. of days Worked</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="border: 1px solid black; width:20%">
+                    <table>
+                        <tr>
+                            <td><span t-field = "o.date_of_arrival"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span t-field = "o.date_of_departure"></span></td>
+                        </tr>
+                        <tr>
+                            <td><span t-field = "o.no_of_days_worked"></span></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table width="100%">
+            <tr>
+                <table style=" border: 1px solid black; border-bottom: none">
+                    <tr>
+                        <th>8.Nature of problem</th>
+                    </tr>
+                    <tr>
+                        <td style="height: 80px;"><span t-field = "o.nature_of_problem"></span></td>
+                    </tr>
+                </table>
+            </tr>
+            <tr>
+                <table style=" border: 1px solid black;  border-bottom: none">
+                    <tr>
+                        <th>9.Work Done</th>
+                    </tr>
+                    <tr>
+                        <td style="height: 80px;"><span t-field = "o.work_done"></span></td>
+                    </tr>
+                </table>
+            </tr>
+            <tr>
+                <table style="border: 1px solid black;  border-bottom: none">
+                    <tr>
+                        <th>
+                            10.Details of Spare Part
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="height: 80px;"><span t-field = "o.details_of_spare_part"></span></td>
+                    </tr>
+                </table>
+            </tr>
+        <tr>
+            <table style=" border: 1px solid black;  border-bottom: none">
+                <tr>
+                    <th>
+                        11.Machine Commissioned/Repair and Working Satisfactory
+                    </th>
+                </tr>
+                <tr>
+                    <td style="height: 80px;"><span t-field = "o.machine_status"></span></td>
+                </tr>
+            </table>
+        </tr>
+        <tr>
+            <table height="100px" width="100%" style=" border: 1px solid black;">
+                <tr>
+                    <td colspan="3" style="text-align: left; padding-left:5px;"><span t-field = "o.sign_service_engineer"></span></td>
+                    <td colspan="3" style="text-align:left; padding:2px;"><span t-field = "o.stamp_sign_party"></span></td>
+
+                </tr>
+
+                <tr>
+                    <th colspan="4" style="text-align: left; height:40px">Sign of Service Engineer</th>
+                    <th colspan="4"  style="text-align: left; height:40px; border-right:1px solid">Stamp and sign of party</th>
+                </tr>
+            </table>
+        </tr>
+    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+        <!-- <report 
+       id= "print_warranty_report_id"
+       model = "warranty.report"
+       report_type= "qweb-pdf"
+       string = "Warranty Report"
+       name = "dw_sales_inherit.report_warranty_document"
+       file = "dw_sales_inherit.report_warranty_document"
+       /> -->
+</odoo>
